@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Helper.fs" />
+    <Compile Include="Number.fs" />
+    <Compile Include="Exporting.fs" />
+    <Compile Include="Typeliss/Typeliss.fs" />
+    <Compile Include="Typeliss/Main.fs" />
+    <Compile Include="Typeliss/Lib.fs" />
+    <Compile Include="Typeliss/Parsing.fs" />
+    <Compile Include="IO.fs" />
+    <Compile Include="Discord.fs" />
+    <Compile Include="DiscordLib.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="3.2.3" />
+    <PackageReference Include="FParsec" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.2" />
+  </ItemGroup>
+</Project>
