@@ -2,11 +2,13 @@
 module Typeliss.Typeliss
 
 open Number
+open Choosing
 
 
 /// An error is a reguler value in Typeliss
 type Error = 
     | TypeError of Value list * string 
+    | AmbiguousApplication of Value * Value
     | UndefinedError of string
     | NoMatch of Value
     override t.ToString() =
@@ -15,6 +17,7 @@ type Error =
             sprintf "TypeError: [%s] %s" (Seq.map string v |> String.concat ", ") msg
         | UndefinedError n -> sprintf "Undefined %s" n
         | NoMatch v -> sprintf "Value %O wasn't matched" v
+        | AmbiguousApplication (x, y) -> sprintf "The expression (%O %O) is ambiguous! Use the |> operator" x y
 
 
 and Vars = Map<string, Value> 
@@ -26,7 +29,7 @@ and [<CustomEquality; NoComparison>] Value =
     | NumberValue of Number
     | StringValue of string
     | ErrorValue of Error
-    | Function of (Value -> Value)
+    | Function of Choosing<Value, unit -> Value>    //  A function takes a value and returns a continuation.
     | Lambda of arg: string * boundVariables: Vars * body: Expr
     | Wrapper of string * Value
     | WrapperCons of name: string

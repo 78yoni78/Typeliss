@@ -6,6 +6,7 @@
   <ItemGroup>
     <Compile Include="Helper.fs" />
     <Compile Include="Number.fs" />
+    <Compile Include="Choosing.fs" />
     <Compile Include="Exporting.fs" />
     <Compile Include="Typeliss/Typeliss.fs" />
     <Compile Include="Typeliss/Main.fs" />

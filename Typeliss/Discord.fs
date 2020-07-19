@@ -6,12 +6,14 @@ open DSharpPlus
 
 
 let connection(cont: DiscordClient -> Async<unit>) = 
+    let readToken () = IO.read "token.txt"
+
     async {
         let conf = DiscordConfiguration ()
         conf.set_AutoReconnect true
         conf.set_UseInternalLogHandler true
         conf.set_LogLevel LogLevel.Debug
-        conf.set_Token "NzMwMzExNTg0Mjk5MjIxMDM1.XwVqng.l6AtVg3o6nFlh-jpCVv55SvlUHo"
+        conf.set_Token <| readToken()
         conf.set_TokenType TokenType.Bot
         use discord = new DiscordClient(conf) 
         do! discord.ConnectAsync() |> Async.AwaitTask

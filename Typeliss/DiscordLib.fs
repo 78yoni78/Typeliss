@@ -26,17 +26,17 @@ let reply (m: DiscordMessage) str =
 let [<Export>] print ({E = e}: DiscordContext) =
     value { let! o = anyVal in return reply e.Message (string o) }
 
-let [<Export>] input ({Conn = discord; E = e}: DiscordContext as con) =
-    Function (fun value ->
-        apply (print con) value |> ignore
-        let e2 = 
-            waitEventOnce discord.add_MessageCreated discord.remove_MessageCreated
-            <| (fun e2 -> e2.Channel = e.Channel && e2.Author = e.Author)
-            |> Async.RunSynchronously
-        StringValue e2.Message.Content)
+//let [<Export>] input ({Conn = discord; E = e}: DiscordContext as con) =
+//    Function (fun value ->
+//        apply (print con) value |> ignore
+//        let e2 = 
+//            waitEventOnce discord.add_MessageCreated discord.remove_MessageCreated
+//            <| (fun e2 -> e2.Channel = e.Channel && e2.Author = e.Author)
+//            |> Async.RunSynchronously
+//        StringValue e2.Message.Content)
 
-let [<Export>] help (_: DiscordContext) =
-    Function (fun _ -> StringValue (IO.read "readme.txt"))
+//let [<Export>] help (_: DiscordContext) =
+//    Function (fun _ -> StringValue (IO.read "readme.txt"))
 
 let [<Export>] read (_: DiscordContext) =
     value { let! () = monoVal in return IO.read "readwrite.txt" }
@@ -65,7 +65,7 @@ let alternativeNames = Map.ofList [
     "help", ["עזרה"]
     "read", ["קרא"]
     "write", ["כתוב"]
-    "define", ["הגדר"; "let"; "יהי"]
+    "define", ["הגדר"; "יהי"]
     "load", ["טען"]
     "save", ["שמור"]
 ]
