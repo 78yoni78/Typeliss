@@ -17,10 +17,10 @@ Let's talk about the syntax.
 ##### But before that, an example program: 
 ```
 match (input 'Enter a number: ') [
-    parse-number (num -> 
+    parse-number? (num -> 
         print 'Your number: ';
         print num;
-        if (number > 0) {
+        if (num > 0) {
         	print 'A positive number!'
         } {
         	print 'A negetive number'
@@ -61,7 +61,7 @@ This, sadly, means there is no operator order so `1 + 2 * 3` = `(1 + 2) * 3` bec
 ##### Functional loops: `map`, `for`, `until`
 
 * `map mappable (x -> new-x)` maps every x in the mappable to a new x
-* `for iterable x (i -> x -> new-x)` for each element in the iterable, apply it and the x returned by the previous iteration to the function. Start with x. Same as the fold function in other languages.
+* `for iterable x (i -> x -> new-x)` for each element in the iterable, apply it and the x returned by the previous iteration to the function. Start with x. Same as the fold function in other languages. For example, `for 5 0 (i -> acc -> acc + i)` will return the sum `1 + 2 + 3 + 4 + 5`
 * `until x (x -> body)` Apply x to the function. If it returns a value matching the pattern `("break")`
 
 ##### Typeliss types and patterns
@@ -74,10 +74,11 @@ A pattern usually a function or a string.down
 note the use of expressions like `some: value`, will be expanded upon further 
 
 Some basic patterns: 
-* `is-number` is `Anything -> int option`
-* `is-string` is `Anything -> int option`
-* `is-applicable` is `Anything -> option (Anything -> option (() -> Anything))`
-* `length` is `Anything -> int option`
+* `number?` is `Anything -> int option`
+* `string?` is `Anything -> int option`
+* `applicable?` is `Anything -> option (Anything -> option (() -> Anything))`
+* `length?` is `Anything -> int option`
+* `parse-number?` is `string -> int option`
 * `= x`  is `'T -> 'T -> 'T option`
 * `!= x` is `'T -> 'T -> () option`
 * `> x`  is `'T -> 'T -> () option`
