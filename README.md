@@ -18,11 +18,11 @@ Let's talk about the syntax.
 ```
 match (input 'Enter a number: ') [
     parse-number? (num -> 
-        print 'Your number: ';
+	print 'Your number: ';
         print num;
         if (num > 0) {
         	print 'A positive number!'
-        } {
+		} {
         	print 'A negetive number'
         }
     )
@@ -87,6 +87,42 @@ Some basic patterns:
 * `<= x` is `'T -> 'T -> () option`
 * `always-match` is `'T -> some: 'T`
 * `never-match` is `Anything -> none: ()`
+
+# Design Patterns
+
+##### Implementing intefaces
+
+Let's say you want to implement a vector object, which can be mapped and iterated and added.
+
+We will need a `vector?` pattern that checks if a value is a vector and returns it, and a function `vector-to-tuple` that converts it to a tuple:
+
+```let {vector?} (x -> 
+	x match [
+		"vector" some: 
+		always-match {none: ()}
+	])```
+
+```let {vector-to-tuple} (x -> x match "vector" id)```
+	
+Now we need to *redefine* `for`, `map` and `+`.
+
+```let {for} (iterable ->
+	match iterable [
+		vector? (vec -> for (vector-to-tuple vec))
+		always-match {for iterable}
+	])```
+	
+```let {map} (mappable ->
+	match iterable [
+		vector? (vec -> mapping -> map (vector-to-tuple vec) mapping |> vector:)
+		always-match {map iterable}
+	])```
+	
+```let {+} (addable ->
+	match addable [
+		vector? (vec1 -> vec2 -> zip vec1 vec2 |> map (+))
+		always-match {map iterable}
+	])```
 
 ```
 let {ducks} (how-many-ducks -> repeat how-many-ducks '' (+ ':duck:')) {
