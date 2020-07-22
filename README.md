@@ -17,16 +17,16 @@ Let's talk about the syntax.
 ##### But before that, an example program: 
 ```
 match (input 'Enter a number: ') [
-    parse-number? (num -> 
-	print 'Your number: ';
-        print num;
-        if (num > 0) {
-        	print 'A positive number!'
+	(to-number then (num -> 
+		print 'Your number: ';
+		print num;
+		if (num > 0) {
+			print 'A positive number!'
 		} {
-        	print 'A negetive number'
-        }
-    )
-    always-match { 
+			print 'A negetive number'
+		}
+    ))
+    { 
     	print "You didn't enter a number! "
     }
 ]
@@ -34,7 +34,7 @@ match (input 'Enter a number: ') [
 Admittedly, this is a cherry-picked example (and it could be written shorter). And you may be wondering what the brackets mean. But what if I told you everything here is a function? 
 
 ```
-if (input 'Enter a number: ' parse-number) (num -> 
+if (input 'Enter a number: ' to-number) (num -> 
 	if (num > 0) ('A positive number!') ('A negetive number') 
     |> (sign-message -> ['Your number: ' num sign-message])
 ) ["You didn't enter a number!"]
@@ -66,7 +66,7 @@ This, sadly, means there is no operator order so `1 + 2 * 3` = `(1 + 2) * 3` bec
 
 ##### Typeliss types and patterns
 
-A pattern usually a function or a string.down
+A pattern is usually a function or a string.
 
 * If it is a function, apply the function to the input. If it returned `some: value`, then the output is `value`. If it returned `none: ()`, then the pattern failed. 
 * If it is a string, then if the input is a wrapper with a name equal to the string, matches and output is the value of the wrapper`
@@ -78,7 +78,7 @@ Some basic patterns:
 * `string?` is `Anything -> int option`
 * `applicable?` is `Anything -> option (Anything -> option (() -> Anything))`
 * `length?` is `Anything -> int option`
-* `parse-number?` is `string -> int option`
+* `to-number?` is `string -> int option`
 * `= x`  is `'T -> 'T -> 'T option`
 * `!= x` is `'T -> 'T -> () option`
 * `> x`  is `'T -> 'T -> () option`
